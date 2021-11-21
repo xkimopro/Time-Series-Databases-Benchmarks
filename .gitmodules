@@ -1,0 +1,3 @@
+[submodule "tsbs"]
+	path = tsbs
+	url = https://github.com/questdb/tsbs

@@ -4,7 +4,6 @@ Performance comparison of Time-Series-Databases specifically influxDB and timesc
 This work was done as a semester project for the course of Analysis and Design of big
 data information systems. It consists of a series of scripts and documentation to install
 and benchmark some popular Time-Series Databases on debian based operating systems.
-Verify that the postgres service is running successfully
 
 # Install InfluxDB (v2.1.1)
 ```console
@@ -52,8 +51,24 @@ foo@bar:~$ sudo add-apt-repository ppa:timescale/timescaledb-ppa -y
 foo@bar:~$ sudo apt-get install timescaledb-postgresql-12 -y
 foo@bar:~$ sudo timescaledb-tune --quiet --yes
 foo@bar:~$ sudo service postgresql restart
+```
+
+# Install Golang (2.1.13)
+```console 
+foo@bar:~$ sudo apt install golang-go
+```
+
+# Build TSBS Go Programs
+
+```console 
+foo@bar:~$ cd tsbs
+foo@bar:~/tsbs$ make
+...
+
 
 ```
+
+
 
 
 
