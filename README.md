@@ -62,6 +62,7 @@ foo@bar:~$ sudo apt install golang-go
 
 ```console 
 foo@bar:~$ cd tsbs
+foo@bar:~$ git submodule update --init --recursive
 foo@bar:~/tsbs$ make
 ...
 
