@@ -5,8 +5,9 @@ This work was done as a semester project for the course of Analysis and Design o
 data information systems. It consists of a series of scripts and documentation to install
 and benchmark some popular Time-Series Databases on debian based operating systems.
 
-#Overview
+# Overview
 [Installation and prerequisites](#install-telegraf-(1.20.4))
+<br>
 [Dataset Generation](#data-generation)
 
 
@@ -121,7 +122,7 @@ The file size is 512MB which means that our assumption is true which means we ca
 
 
 ## Data generation synopsis
-Our goal here is to generate three datasets of pseudo-csv compressed data for influxDB and timescaleDB that differ orders of magnitude. For that purpose we will use the time series benchmark suite that has prebuilt tools forgeneration of pseudo-random data as well as benchmarking scripts that measure read and write performance .
+Our goal here is to generate three datasets of pseudo-csv data for influxDB and timescaleDB that differ orders of magnitude. For that purpose we will use the time series benchmark suite that has prebuilt tools forgeneration of pseudo-random data as well as benchmarking scripts that measure read and write performance .
 
 <b>Small Dataset</b> ≈ 500MB
 <b>Medium Dataset</b> ≈ 5GB
@@ -136,26 +137,22 @@ named tsbs_generate_data and it is located inside the bin folder of tsbs. We exe
 script as
 ```console 
 foo@bar:~$
-tsbs_generate_data --use-case="iot" --seed=123 --scale=4000 \
+time tsbs_generate_data --use-case="iot" --seed=123 --scale=4000 \
     --timestamp-start="2016-01-01T00:00:00Z" \
-    --timestamp-end="2016-01-04T00:00:00Z" \
-    --log-interval="10s" --format="timescaledb" \
-    | gzip > /tmp/timescaledb-data2.gz
+    --timestamp-end="2016-01-01T10:00:00Z" \
+    --interleaved-generation-groups=10 \
+    --log-interval="10s" --format="timescaledb" > ~/iot_data/timescale-data-small.csv
 ```
-The generated file size is approximately 3.1 GB which means that with the above scale and log_interval as fixed parameters we could generate 1GB of compressed data per day . We test our assumption by generating the small dataset using the command bellow:
-
+The generated file size is approximately 490ΜΒ (as expected for the small dataset), which means that with the above scale and log-interval as fixed parameters we could generate the other datasets by multiplying the time window one order of magnitude each time. The data-generation commands are located at Time-Series-Databases-Benchmarks/generation/data as shell scripts and the output of each command is stored by default at /home/user/iot_data. The --interleaved-generation-groups=10 parameter is used to speed up the data-generation process. Values above 10 do not seem to make a difference but that might be dependant on the underlying hardware. The results are show below
 ```console 
-foo@bar:~$
-tsbs_generate_data --use-case="iot" --seed=123 --scale=4000 \
-    --timestamp-start="2016-01-01T00:00:00Z" \
-    --timestamp-end="2016-01-01T12:00:00Z" \
-    --log-interval="10s" --format="timescaledb" \
-    | gzip > /tmp/timescaledb-data-small.gz
-foo@bar:~$ ls -liaf /tmp
-foo@bar:~$ ...
-...
-193254 -rw-r--r--  1 kimopro kimopro 512M Dec 11 19:50 timescaledb-data_small.gz
-...
+foo@bar:~$ ls -lh ~/iot_data
+total 119G
+-rw-rw-r-- 1 kimonas kimonas  59G Δεκ  17 19:54 influx-data-large.csv
+-rw-rw-r-- 1 kimonas kimonas 5,7G Δεκ  17 13:57 influx-data-medium.csv
+-rw-rw-r-- 1 kimonas kimonas 593M Δεκ  16 23:21 influx-data-small.csv
+-rw-rw-r-- 1 kimonas kimonas  49G Δεκ  17 17:19 timescale-data-large.csv
+-rw-rw-r-- 1 kimonas kimonas 4,8G Δεκ  17 12:20 timescale-data-medium.csv
+-rw-rw-r-- 1 kimonas kimonas 483M Δεκ  16 23:11 timescale-data-small.csv
 ```
-The file size is 512MB which means that our assumption is true which means we can proceed with generating the medium and large-dataset as well as the influxDB versions.
+The consistent difference between influx and timescaledb format filesizes is not something to be considered unusal and thats because the influx version uses key-value pairs for every row of data thus allowing semi- structured data whereas postgres as a strict relational database uses a csv tabular format
 
