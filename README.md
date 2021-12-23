@@ -17,8 +17,8 @@ and benchmark some popular Time-Series Databases on debian based operating syste
 foo@bar:~$ wget -qO- https://repos.influxdata.com/influxdb.key | gpg --dearmor > /etc/apt/trusted.gpg.d/influxdb.gpg
 foo@bar:~$ export DISTRIB_ID=$(lsb_release -si); export DISTRIB_CODENAME=$(lsb_release -sc)
 foo@bar:~$ echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" > /etc/apt/sources.list.d/influxdb.list
-foo@bar:~$sudo apt-get update && sudo apt-get install influxdb
-foo@bar:~$sudo service influxdb start
+foo@bar:~$ sudo apt-get update && sudo apt-get install influxdb
+foo@bar:~$ sudo service influxdb start
 
 ```
 
