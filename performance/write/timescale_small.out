@@ -1,0 +1,13 @@
+Bulk loading file /home/kimonas/iot_data/timescale-data-small.csv
++ pg_isready -h localhost -p 5433
+localhost:5433 - accepting connections
++ cat /home/kimonas/iot_data/timescale-data-small.csv
++ /home/kimonas/Time-Series-Databases-Benchmarks/tsbs/bin/tsbs_load_timescaledb --postgres=sslmode=disable --db-name=benchmark_small --host=localhost --port=5433 --pass=asd --user=postgres --workers=4 --batch-size=10000 --reporting-period=10s --use-hypertable=true --use-jsonb-tags=false --in-table-partition-tag=true --hash-workers=false --time-partition-index=false --partitions=0 --chunk-time=8h --write-profile= --field-index-count=1 --do-create-db=true --force-text-format=false
+time,per. metric/s,metric total,overall metric/s,per. row/s,row total,overall row/s
+1640252525,454936.28,4.550016E+06,454936.28,90986.94,9.100000E+05,90986.94
+1640252535,360012.58,8.149768E+06,407480.30,72007.48,1.630000E+06,81498.38
+1640252545,309956.29,1.125002E+07,374967.91,61986.22,2.250000E+06,74993.45
+
+Summary:
+loaded 12965262 metrics in 35.669sec with 4 workers (mean rate 363483.77 metrics/sec)
+loaded 2593066 rows in 35.669sec with 4 workers (mean rate 72697.13 rows/sec)

@@ -1,0 +1,14 @@
+Bulk loading file /home/kimonas/iot_data/influx-data-small.csv
+{"results":[{"statement_id":0}]}
+time,per. metric/s,metric total,overall metric/s,per. row/s,row total,overall row/s
+1640282922,632561.89,6.325782E+06,632561.89,79997.94,8.000000E+05,79997.94
+1640282932,672135.10,1.304704E+07,652348.09,85001.21,1.650000E+06,82499.52
+1640282942,703736.23,2.008442E+07,669477.43,88999.79,2.540000E+06,84666.27
+[worker 2] backoffs took a total of 0.000000sec of runtime
+[worker 0] backoffs took a total of 0.000000sec of runtime
+[worker 1] backoffs took a total of 0.000000sec of runtime
+[worker 3] backoffs took a total of 0.000000sec of runtime
+
+Summary:
+loaded 20503558 metrics in 30.308sec with 4 workers (mean rate 676499.27 metrics/sec)
+loaded 2593066 rows in 30.308sec with 4 workers (mean rate 85556.24 rows/sec)

@@ -12,12 +12,14 @@ and benchmark some popular Time-Series Databases on debian based operating syste
 
 
 
-## Install InfluxDB (v2.1.1)
+## Install InfluxDB (v1.8.10)
 ```console
-foo@bar:~$ wget -qO- https://repos.influxdata.com/influxdb.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdb.gpg > /dev/null
+foo@bar:~$ wget -qO- https://repos.influxdata.com/influxdb.key | gpg --dearmor > /etc/apt/trusted.gpg.d/influxdb.gpg
 foo@bar:~$ export DISTRIB_ID=$(lsb_release -si); export DISTRIB_CODENAME=$(lsb_release -sc)
-foo@bar:~$ echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list > /dev/null
-foo@bar:~$ sudo apt-get update && sudo apt-get install influxdb2
+foo@bar:~$ echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" > /etc/apt/sources.list.d/influxdb.list
+foo@bar:~$sudo apt-get update && sudo apt-get install influxdb
+foo@bar:~$sudo service influxdb start
+
 ```
 
 ## Install Telegraf (1.20.4)
@@ -115,4 +117,32 @@ total 119G
 -rw-rw-r-- 1 kimonas kimonas 483M Δεκ  16 23:11 timescale-data-small.csv
 ```
 The consistent difference between influx and timescaledb format filesizes is not something to be considered unusal and thats because the influx version uses key-value pairs for every row of data thus allowing semi-structured data whereas postgres as a strict relational database uses a csv tabular format
+
+# Insert/Write Performance
+
+## Synopsis
+
+To measure insert performance we use the scripts load_timescaledb.sh and load_influx.sh for each database accordingly. These scripts are based on the load_timescaledb and load_influx go executables.They automate the insert performance benchmarking and allow for some parametrization. The scripts were run with workers=2 , batch_size =10000 and the default parameters for each database changing only the database_name param so that inserts wont interfere with previous ones. We redirect the write performance results to files located inside peformance/write. Before running the scripts you should change the files /scripts/load/load_timescaledb.sh and /scripts/load/load_common.sh .A thing that should definetely be changed is the bulk_data_dir to point ot the data directory (load_common.sh) .
+<br>
+## Example for the small dataset
+This is the TimescaleDB version using the small dataset and the default parameters with  num_workers = cpu_cores and batch_size=10000
+
+```console 
+foo@bar:~$ scripts/load/load_timescaledb.sh | tee ../performance/write/timescale_small.out
+Bulk loading file /home/kimonas/iot_data/timescale-data-small.csv
++ pg_isready -h localhost -p 5433
+localhost:5433 - accepting connections
++ cat /home/kimonas/iot_data/timescale-data-small.csv
++ /home/kimonas/Time-Series-Databases-Benchmarks/tsbs/bin/tsbs_load_timescaledb --postgres=sslmode=disable --db-name=benchmark_small --host=localhost --port=5433 --pass=pass --user=postgres --workers=4 --batch-size=10000 --reporting-period=10s --use-hypertable=true --use-jsonb-tags=false --in-table-partition-tag=true --hash-workers=false --time-partition-index=false --partitions=0 --chunk-time=8h --write-profile= --field-index-count=1 --do-create-db=true --force-text-format=false
+time,per. metric/s,metric total,overall metric/s,per. row/s,row total,overall row/s
+1640252525,454936.28,4.550016E+06,454936.28,90986.94,9.100000E+05,90986.94
+1640252535,360012.58,8.149768E+06,407480.30,72007.48,1.630000E+06,81498.38
+1640252545,309956.29,1.125002E+07,374967.91,61986.22,2.250000E+06,74993.45
+Summary:
+loaded 12965262 metrics in 35.669sec with 4 workers (mean rate 363483.77 metrics/sec)
+loaded 2593066 rows in 35.669sec with 4 workers (mean rate 72697.13 rows/sec)
+```
+This is the InfluxDB version using the small dataset and the default parameters with  num_workers = cpu_cores and batch_size=10000
+
+
 
