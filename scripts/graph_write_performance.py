@@ -1,39 +1,39 @@
 import matplotlib.pyplot as plt
 
-
+import matplotlib as mpl
 
 rows_per_sec = []
+metrics_per_sec = []
+
+
+database_names = ["timescale" , "influx"] 
+dataset_size = "medium"
 
 
 
+for db_name in database_names:
 
-database_names = ["influx" , "timescale"] 
-dataset_size = "small"
-
-# for db_name in database_names:
-
-#     with open(f"performance/write/{db_name}_{dataset_size}.out") as f:
-#         lines = f.readlines()
-#         for l in lines:
-#             if l[0:6] == 'loaded': 
-#                 line = l.split(',')
-#                 for ll in line:
-#                     print(ll)
-                    
-#                 phase = 1
-#                 continue
-#             if phase == 1:
-#                 if not l[0].isnumeric():
-#                     phase = 2
-#                     continue
-#                 line = l.split(',')
-#                 metrics_per_sec_timescale.append(line[3])
-#                 rows_per_sec.append(line[2])
+    with open(f"../performance/write/{db_name}_{dataset_size}.out") as f:
+        
+        lines = f.readlines()
+        for l in lines:
+            if l[0:6] == 'loaded' and "rows/sec)" in l: 
+                line = l.split(' ')
+                metrics_per_sec.append(float(line[-2]))
+                # break                   
             
+print(metrics_per_sec)
 
-            
-fig = plt.figure()
-ax = fig.add_axes([0,0,1,1])
-rows_per_sec = [23,17]
-ax.bar(database_names,rows_per_sec)
-plt.show()
+
+fig = plt.figure(figsize = (7, 5))
+plt.bar(database_names, metrics_per_sec, color=['orange', 'cyan'], 
+        width = 0.2)
+ 
+plt.xlabel("Database")
+plt.ylabel("Metrics / second")
+plt.title("Database insert performance comparison")
+plt.show()            
+
+
+
+
