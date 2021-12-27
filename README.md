@@ -160,6 +160,23 @@ time,per. metric/s,metric total,overall metric/s,per. row/s,row total,overall ro
 Summary:
 loaded 20503558 metrics in 30.308sec with 4 workers (mean rate 676499.27 metrics/sec)
 loaded 2593066 rows in 30.308sec with 4 workers (mean rate 85556.24 rows/sec)
+```
+## Parsing the results and plotting with matplotlib
+
+We use the python script graph_write_performance.py to extract the two metrics that are relevant to compare insert performance . These are the metrics/sec and rows/sec and they are found at the last two lines of the benchmark output. We first download the required dependencies and then call the script
+```console
+ foo@bar:~/Time-Series-Databases-Benchmarks/scripts$ pip install -r requirements.txt
+ foo@bar:~/Time-Series-Databases-Benchmarks/scripts$ cd ..
+ foo@bar:~/Time-Series-Databases-Benchmarks$ python3 scripts/graph_write_performance.py 
+```
+And we receive three sets of graphs for each dataset
+
+Small Dataset example
+
+![image info](./performance/write/small_dataset.png)
+
+
+
 
 
 
