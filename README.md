@@ -165,15 +165,52 @@ loaded 2593066 rows in 30.308sec with 4 workers (mean rate 85556.24 rows/sec)
 
 We use the python script graph_write_performance.py to extract the two metrics that are relevant to compare insert performance . These are the metrics/sec and rows/sec and they are found at the last two lines of the benchmark output. We first download the required dependencies and then call the script
 ```console
- foo@bar:~/Time-Series-Databases-Benchmarks/scripts$ pip install -r requirements.txt
- foo@bar:~/Time-Series-Databases-Benchmarks/scripts$ cd ..
- foo@bar:~/Time-Series-Databases-Benchmarks$ python3 scripts/graph_write_performance.py 
+foo@bar:~/Time-Series-Databases-Benchmarks/scripts$ pip install -r requirements.txt
+foo@bar:~/Time-Series-Databases-Benchmarks/scripts$ cd ..
+foo@bar:~/Time-Series-Databases-Benchmarks$ python3 scripts/graph_write_performance.py 
 ```
 And we receive three sets of graphs for each dataset
 
 Small Dataset example
 
 ![image info](./performance/write/small_dataset.png)
+
+
+## Database size on disk comparison
+
+To locate the database on disk we need to install an interactive disk usage analyzer. For that we choose ncdu
+
+```console
+foo@bar:~/$ sudo su
+root@bar:/# apt-get install ncdu
+root@bar:/# cd /var/lib/postgresql/12/main/base
+root@bar:/var/lib/postgresql/12/main/base# ncdu
+ncdu 1.15.1 ~ Use the arrow keys to navigate, press ? for help
+--- /var/lib/postgresql/12/main/base -----------------------------------------
+   50,5 GiB [##########] /34250
+    4,8 GiB [          ] /18346
+  508,3 MiB [          ] /17659
+    9,0 MiB [          ] /13496
+    7,8 MiB [          ] /1
+    7,7 MiB [          ] /13495
+    4,0 KiB [          ] /pgsql_tmp 
+```
+And the path for influxdb is /var/lib/influxdb/data/ accordingly
+<br>
+## Parsing the results and plotting with matplotlib
+To measure and graph disk size per database and dataset size([influx/timescale]{small ,medium ,large}) open the python script contained in scripts/graph_size_on_disk.py and change two things
+```python
+sudo_password = 'change_to_your_sudo_password'
+```
+and the dictionary values below to match the database name given by postgres for each dataset size. Postgres makes our life difficult by naming databases numerically in the data storage folder
+```python
+timescaledb_database_dictionary = { 'small' : '17659', 'medium' : '18346', 'large' : '34250' }
+```
+Running the script for the results we generated gives the graph below
+<br>
+![image info](./performance/disk_size/disk_size_per_db.png)
+
+It is obvious seeing the graph that influxDB performs efficient time-series specific compression algorithms whereas timescaleDB does not compress the data. TimescaleDB databases in disk are within the order of magnitude of the original csv input data where as influx db disk-data are compressed almost to one-tenth of the original set.  
 
 
 
