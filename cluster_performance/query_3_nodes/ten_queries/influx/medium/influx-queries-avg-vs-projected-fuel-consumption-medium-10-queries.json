@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query_3_nodes/ten_queries/influx/medium/influx-queries-avg-vs-projected-fuel-consumption-medium-10-queries.json"
+ },
+ "StartTime": 1646408893000,
+ "EndTime": 1646408895000,
+ "DurationMillis": 2088,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_average_vs_projected_fuel_consumption_per_fleet": {
+    "q0": 0,
+    "q100": 1007.423,
+    "q50": 1000.607,
+    "q95": 1007.423,
+    "q99": 1007.423,
+    "q999": 1007.423
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 1007.423,
+    "q50": 1000.607,
+    "q95": 1007.423,
+    "q99": 1007.423,
+    "q999": 1007.423
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 1007.423,
+    "q50": 1007.231,
+    "q95": 1007.423,
+    "q99": 1007.423,
+    "q999": 1007.423
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 1000.607,
+    "q50": 1000.255,
+    "q95": 1000.607,
+    "q99": 1000.607,
+    "q999": 1000.607
+   }
+  },
+  "overallQueryRates": {
+   "Influx_average_vs_projected_fuel_consumption_per_fleet": 9.584541744369345,
+   "all_queries": 9.584541744369345,
+   "cold_queries": 4.792270872184672,
+   "warm_queries": 4.792270872184672
+  },
+  "prewarmQueries": true
+ }
+}

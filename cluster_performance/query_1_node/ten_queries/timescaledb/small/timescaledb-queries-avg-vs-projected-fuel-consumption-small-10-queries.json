@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_small",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query_1_node/ten_queries/timescaledb/small/timescaledb-queries-avg-vs-projected-fuel-consumption-small-10-queries.json"
+ },
+ "StartTime": 1646415780000,
+ "EndTime": 1646415800000,
+ "DurationMillis": 20600,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "TimescaleDB_average_vs_projected_fuel_consumption_per_fleet": {
+    "q0": 0,
+    "q100": 12496.895,
+    "q50": 9463.295,
+    "q95": 11381.759,
+    "q99": 12496.895,
+    "q999": 12496.895
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 12496.895,
+    "q50": 9463.295,
+    "q95": 11381.759,
+    "q99": 12496.895,
+    "q999": 12496.895
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 12496.895,
+    "q50": 10972.159,
+    "q95": 12496.895,
+    "q99": 12496.895,
+    "q999": 12496.895
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 9463.295,
+    "q50": 8900.095,
+    "q95": 9463.295,
+    "q99": 9463.295,
+    "q999": 9463.295
+   }
+  },
+  "overallQueryRates": {
+   "TimescaleDB_average_vs_projected_fuel_consumption_per_fleet": 0.9711679371469435,
+   "all_queries": 0.9711679371469435,
+   "cold_queries": 0.48558396857347175,
+   "warm_queries": 0.48558396857347175
+  },
+  "prewarmQueries": true
+ }
+}

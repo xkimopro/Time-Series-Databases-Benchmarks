@@ -1,0 +1,27 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "db-name": "benchmark_medium",
+  "batch-size": 10000,
+  "workers": 12,
+  "limit": 0,
+  "do-load": true,
+  "do-create-db": true,
+  "do-abort-on-exist": false,
+  "reporting-period": 10000000000,
+  "hash-workers": false,
+  "no-flow-control": false,
+  "channel-capacity": 0,
+  "insert-intervals": "",
+  "results-file": "/opt/cluster_performance/write/medium/influxdb_medium_5_data_nodes_first.json",
+  "file": "",
+  "seed": 0
+ },
+ "StartTime": 1646410644,
+ "EndTime": 1646410778,
+ "DurationMillis": 133400,
+ "Totals": {
+  "metricRate": 1536983.3518771527,
+  "rowRate": 194390.74668674078
+ }
+}

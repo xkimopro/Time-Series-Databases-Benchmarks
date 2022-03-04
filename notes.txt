@@ -1,0 +1,105 @@
+## TimescaleDB Containers
+
+docker run -dt --name timescaledb_access --network=time_series_network -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+
+docker run -dt --name timescaledb_data_1 --network=time_series_network -p 5433:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_2 --network=time_series_network -p 5434:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_3 --network=time_series_network -p 5435:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+
+docker run -dt --name timescaledb_data_4 --network=time_series_network -p 5436:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_5 --network=time_series_network -p 5437:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+
+
+
+## Benchmark Container
+
+# Create a network
+docker network create time_series_network
+
+# Build tsbs image
+docker build -t benchmarker .
+
+
+# Change \\wsl$\Ubuntu\home\kimopro\iot_data to ~iot/data
+# Change \\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks 
+# Change ` to \ ( powershell to unix bash )
+# Run image benchmarker as a container named benchmarker_container 
+
+
+
+    docker run --name benchmarker_container --network=time_series_network `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\iot_data,target=/opt/iot_data `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks\cluster_performance,target=/opt/cluster_performance `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks\tsbs\scripts\,target=/opt/scripts `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks\generation\query\,target=/opt/generation/query `
+    -dt benchmarker
+
+
+# Load data inside timescale 1 node
+docker exec -it benchmarker_container scripts/load/load_timescaledb.sh > opt/cluster_performance/single_node/write/timescale_small.out
+
+
+/opt/scripts/load/load_timescaledb.sh
+
+
+SELECT * FROM timescaledb_information.data_nodes;
+SELECT add_data_node('dn1', '192.168.0.4')
+SELECT add_data_node('dn2', '192.168.0.5')
+SELECT add_data_node('dn3', '192.168.0.6')
+
+vi /var/lib/postgresql/data/ts_access.conf
+mv /var/lib/postgresql/data/postgresql.conf tmp && mv /var/lib/postgresql/data/ts_access.conf /var/lib/postgresql/data/postgresql.conf && mv tmp /var/lib/postgresql/data/ts_access.conf
+
+vi /var/lib/postgresql/data/ts_data.conf
+mv /var/lib/postgresql/data/postgresql.conf tmp && mv /var/lib/postgresql/data/ts_data.conf /var/lib/postgresql/data/postgresql.conf && mv tmp /var/lib/postgresql/data/ts_data.conf
+
+vi /var/lib/postgresql/data/postgresql.conf
+su postgres -c "pg_ctl reload"
+
+
+DATA
+max_prepared_transactions=150
+wal_level=logical
+
+
+
+#Influx DB container cluster
+
+# 1
+docker build -t benchmarker .
+
+# 2
+docker run --name benchmarker_container --network=time_series_network `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\iot_data,target=/opt/iot_data `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks\cluster_performance,target=/opt/cluster_performance `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks\tsbs\scripts\,target=/opt/scripts `
+    --mount type=bind,source=\\wsl$\Ubuntu\home\kimopro\Time-Series-Databases-Benchmarks\generation\query\,target=/opt/generation/query `
+    -dt benchmarker
+
+# 3
+docker run -dt --name influxdb_meta --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=92678ebc-847f-473a-bda2-e2460ef745c7 -p 8086:8086 influxdb:1.8.10-meta-alpine
+
+docker run -dt --name influxdb_data_1 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=92678ebc-847f-473a-bda2-e2460ef745c7 -p 8087:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_2 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=92678ebc-847f-473a-bda2-e2460ef745c7 -p 8088:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_3 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=92678ebc-847f-473a-bda2-e2460ef745c7 -p 8089:8086 influxdb:1.8.10-data-alpine
+
+docker run -dt --name influxdb_data_4 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=92678ebc-847f-473a-bda2-e2460ef745c7 -p 8090:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_5 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=92678ebc-847f-473a-bda2-e2460ef745c7 -p 8091:8086 influxdb:1.8.10-data-alpine
+
+
+[meta]
+ enabled=true
+ dir = "/var/lib/influxdb/meta"
+ bind-address = "influxdb_access:8088"
+ http-bind-address = "influxdb_access:8091"
+
+[data]
+  enabled = false
+  dir = "/var/lib/influxdb/data"
+  engine = "tsm1"
+  wal-dir = "/var/lib/influxdb/wal"
+
+[http]
+  bind-address = "influxdb_access:8086"
+
+

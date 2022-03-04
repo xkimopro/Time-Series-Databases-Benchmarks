@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_small",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/single_query/influx/small/influx-queries-avg-daily-driving-duration-small-1-queries.json"
+ },
+ "StartTime": 1646410002000,
+ "EndTime": 1646410005000,
+ "DurationMillis": 3770,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_average_driver_driving_duration_per_day": {
+    "q0": 0,
+    "q100": 1869.375,
+    "q50": 1830.143,
+    "q95": 1869.375,
+    "q99": 1869.375,
+    "q999": 1869.375
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 1869.375,
+    "q50": 1830.143,
+    "q95": 1869.375,
+    "q99": 1869.375,
+    "q999": 1869.375
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 1830.143,
+    "q50": 1830.143,
+    "q95": 1830.143,
+    "q99": 1830.143,
+    "q999": 1830.143
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 1869.375,
+    "q50": 1869.375,
+    "q95": 1869.375,
+    "q99": 1869.375,
+    "q999": 1869.375
+   }
+  },
+  "overallQueryRates": {
+   "Influx_average_driver_driving_duration_per_day": 0.5309319493636395,
+   "all_queries": 0.5309319493636395,
+   "cold_queries": 0.26546597468181976,
+   "warm_queries": 0.26546597468181976
+  },
+  "prewarmQueries": true
+ }
+}

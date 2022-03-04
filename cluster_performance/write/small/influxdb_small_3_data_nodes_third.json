@@ -1,0 +1,27 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "db-name": "benchmark_small",
+  "batch-size": 10000,
+  "workers": 12,
+  "limit": 0,
+  "do-load": true,
+  "do-create-db": true,
+  "do-abort-on-exist": false,
+  "reporting-period": 10000000000,
+  "hash-workers": false,
+  "no-flow-control": false,
+  "channel-capacity": 0,
+  "insert-intervals": "",
+  "results-file": "/opt/cluster_performance/write/small/influxdb_small_3_data_nodes_third.json",
+  "file": "",
+  "seed": 0
+ },
+ "StartTime": 1646402920,
+ "EndTime": 1646402931,
+ "DurationMillis": 10420,
+ "Totals": {
+  "metricRate": 1967530.5739337667,
+  "rowRate": 248831.77033118528
+ }
+}

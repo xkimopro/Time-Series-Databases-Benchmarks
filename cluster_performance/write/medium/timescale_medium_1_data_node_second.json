@@ -1,0 +1,27 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "db-name": "benchmark_medium",
+  "batch-size": 10000,
+  "workers": 12,
+  "limit": 0,
+  "do-load": true,
+  "do-create-db": false,
+  "do-abort-on-exist": false,
+  "reporting-period": 10000000000,
+  "hash-workers": false,
+  "no-flow-control": false,
+  "channel-capacity": 0,
+  "insert-intervals": "",
+  "results-file": "/opt/cluster_performance/write/medium/timescale_medium_1_data_node_second.json",
+  "file": "",
+  "seed": 0
+ },
+ "StartTime": 1646417130,
+ "EndTime": 1646417428,
+ "DurationMillis": 298233,
+ "Totals": {
+  "metricRate": 434751.1222315745,
+  "rowRate": 86951.54556077372
+ }
+}

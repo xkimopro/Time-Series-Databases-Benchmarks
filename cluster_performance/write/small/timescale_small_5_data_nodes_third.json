@@ -1,0 +1,27 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "db-name": "benchmark_small",
+  "batch-size": 10000,
+  "workers": 12,
+  "limit": 0,
+  "do-load": true,
+  "do-create-db": false,
+  "do-abort-on-exist": false,
+  "reporting-period": 10000000000,
+  "hash-workers": false,
+  "no-flow-control": false,
+  "channel-capacity": 0,
+  "insert-intervals": "",
+  "results-file": "/opt/cluster_performance/write/small/timescale_small_5_data_nodes_third.json",
+  "file": "",
+  "seed": 0
+ },
+ "StartTime": 1646315973,
+ "EndTime": 1646315995,
+ "DurationMillis": 21353,
+ "Totals": {
+  "metricRate": 607159.563310257,
+  "rowRate": 121432.54954621628
+ }
+}

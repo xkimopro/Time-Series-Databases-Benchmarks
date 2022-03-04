@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query_3_nodes/ten_queries/influx/medium/influx-queries-avg-load-medium-10-queries.json"
+ },
+ "StartTime": 1646408891000,
+ "EndTime": 1646408893000,
+ "DurationMillis": 2085,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_average_load_per_truck_model_per_fleet": {
+    "q0": 0,
+    "q100": 1011.935,
+    "q50": 1003.167,
+    "q95": 1011.935,
+    "q99": 1011.935,
+    "q999": 1011.935
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 1011.935,
+    "q50": 1003.167,
+    "q95": 1011.935,
+    "q99": 1011.935,
+    "q999": 1011.935
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 1011.935,
+    "q50": 1011.135,
+    "q95": 1011.935,
+    "q99": 1011.935,
+    "q999": 1011.935
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 1003.167,
+    "q50": 1002.399,
+    "q95": 1003.167,
+    "q99": 1003.167,
+    "q999": 1003.167
+   }
+  },
+  "overallQueryRates": {
+   "Influx_average_load_per_truck_model_per_fleet": 9.596624598423247,
+   "all_queries": 9.596624598423247,
+   "cold_queries": 4.798312299211624,
+   "warm_queries": 4.798312299211624
+  },
+  "prewarmQueries": true
+ }
+}

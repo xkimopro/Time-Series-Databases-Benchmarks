@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/ten_queries/timescaledb/medium/timescaledb-queries-breakdown-frequency-medium-10-queries.json"
+ },
+ "StartTime": 1646337886000,
+ "EndTime": 1646338073000,
+ "DurationMillis": 187781,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "TimescaleDB_truck_breakdown_frequency_per_model": {
+    "q0": 0,
+    "q100": 128266.239,
+    "q50": 87076.863,
+    "q95": 106491.903,
+    "q99": 128266.239,
+    "q999": 128266.239
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 128266.239,
+    "q50": 87076.863,
+    "q95": 106491.903,
+    "q99": 128266.239,
+    "q999": 128266.239
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 128266.239,
+    "q50": 100573.183,
+    "q95": 128266.239,
+    "q99": 128266.239,
+    "q999": 128266.239
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 87076.863,
+    "q50": 85368.831,
+    "q95": 87076.863,
+    "q99": 87076.863,
+    "q999": 87076.863
+   }
+  },
+  "overallQueryRates": {
+   "TimescaleDB_truck_breakdown_frequency_per_model": 0.10652891807138046,
+   "all_queries": 0.10652891807138046,
+   "cold_queries": 0.05326445903569023,
+   "warm_queries": 0.05326445903569023
+  },
+  "prewarmQueries": true
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_small",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query/single_query/timescaledb/small/timescaledb-queries-avg-load-small-1-queries.json"
+ },
+ "StartTime": 1646182430000,
+ "EndTime": 1646182431000,
+ "DurationMillis": 810,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "TimescaleDB_average_load_per_truck_model_per_fleet": {
+    "q0": 0,
+    "q100": 577.407,
+    "q50": 179.631,
+    "q95": 577.407,
+    "q99": 577.407,
+    "q999": 577.407
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 577.407,
+    "q50": 179.631,
+    "q95": 577.407,
+    "q99": 577.407,
+    "q999": 577.407
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 577.407,
+    "q50": 577.407,
+    "q95": 577.407,
+    "q99": 577.407,
+    "q999": 577.407
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 179.631,
+    "q50": 179.631,
+    "q95": 179.631,
+    "q99": 179.631,
+    "q999": 179.631
+   }
+  },
+  "overallQueryRates": {
+   "TimescaleDB_average_load_per_truck_model_per_fleet": 2.4770755942783023,
+   "all_queries": 2.4770755942783023,
+   "cold_queries": 1.2385377971391511,
+   "warm_queries": 1.2385377971391511
+  },
+  "prewarmQueries": true
+ }
+}

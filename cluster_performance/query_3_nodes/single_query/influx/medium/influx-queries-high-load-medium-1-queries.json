@@ -1,0 +1,66 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": true,
+  "ResultsFile": "/opt/cluster_performance/query_3_nodes/single_query/influx/medium/influx-queries-high-load-medium-1-queries.json"
+ },
+ "StartTime": 1646408017000,
+ "EndTime": 1646408018000,
+ "DurationMillis": 905,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_trucks_with_high_load": {
+    "q0": 0,
+    "q100": 427.855,
+    "q50": 425.327,
+    "q95": 427.855,
+    "q99": 427.855,
+    "q999": 427.855
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 427.855,
+    "q50": 425.327,
+    "q95": 427.855,
+    "q99": 427.855,
+    "q999": 427.855
+   },
+   "cold_queries": {
+    "q0": 0,
+    "q100": 427.855,
+    "q50": 427.855,
+    "q95": 427.855,
+    "q99": 427.855,
+    "q999": 427.855
+   },
+   "warm_queries": {
+    "q0": 0,
+    "q100": 425.327,
+    "q50": 425.327,
+    "q95": 425.327,
+    "q99": 425.327,
+    "q999": 425.327
+   }
+  },
+  "overallQueryRates": {
+   "Influx_trucks_with_high_load": 2.214421798413876,
+   "all_queries": 2.214421798413876,
+   "cold_queries": 1.107210899206938,
+   "warm_queries": 1.107210899206938
+  },
+  "prewarmQueries": true
+ }
+}

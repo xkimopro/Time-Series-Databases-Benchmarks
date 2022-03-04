@@ -104,7 +104,6 @@ for FORMAT in ${FORMATS}; do
             SIZE="large"
         else
             echo "OUTOFRANGE"
-
             SIZE="out-of-range"}
         fi
         TSB_SCENARIO_DB_SIZE_DIR=$TSB_SCENARIO_DB_DIR/$SIZE
