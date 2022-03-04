@@ -36,7 +36,6 @@ avg-daily-driving-duration \
 avg-daily-driving-session \
 avg-load \
 daily-activity"
-# long-daily-sessions"
 
  	
 # What query types to generate
@@ -91,19 +90,14 @@ for FORMAT in ${FORMATS}; do
         #size of data we want to make queries for
         if [[ "${TS_END}" == "2016-01-01T10:00:01Z" ]]; 
         then
-            echo "SMALL"
             SIZE="small"
         elif [[ "${TS_END}" == "2016-01-05T04:00:01Z" ]];
         then
-            echo "MEDIUM"
             SIZE="medium"
         elif [[ "${TS_END}" == "2016-02-12T15:00:01Z" ]];
         then
-            echo "LARGE"
-
             SIZE="large"
         else
-            echo "OUTOFRANGE"
             SIZE="out-of-range"}
         fi
         TSB_SCENARIO_DB_SIZE_DIR=$TSB_SCENARIO_DB_DIR/$SIZE

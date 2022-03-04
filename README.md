@@ -212,9 +212,40 @@ Running the script for the results we generated gives the graph below
 
 It is obvious seeing the graph that influxDB performs efficient time-series specific compression algorithms whereas timescaleDB does not compress the data. TimescaleDB databases in disk are within the order of magnitude of the original csv input data where as influx db disk-data are compressed almost to one-tenth of the original set.  
 
+## Generating queries using TSBS
 
+To benchmark the two databases we have chosen to generate two distinct scenarios for each database/size.
 
+1) A set of single iot queries that cover all of the query spectrum from aggregates and joins to heavy mathematical computation.
 
+2) A set of 10 times repeatable queries that also cover all of the query spectrum and are meant to be executed one after another
+
+For that purpose we will use the bash scripts [generate_query_1.sh](./generation/query/generate_query_1.sh) and [generate_queries_10.sh](./generation/query/generate_queries_10.sh)
+that generate the N queries accordingly and place them inside folders respectably
+
+Be careful to match the time-ranges in the data generated and loaded into each database with the time-ranges in the queries
+To run the script simply do from the root of the repo:
+```console 
+foo@bar:~$ sudo chmod +x ./generation/query/generate_query_1.sh
+foo@bar:~$ ./generation/query/generate_query_1.sh 
+```
+Queries are inside the folder generation/query/<b>scenario</b>/<b>database</b>/<b>size</b>
+
+##Measuring performance on a single machine
+
+To measure perforamce on a single machine we used the script [run_queries.sh](./scripts/run_queries.sh) that is more or less a merge of the run_queries_timescaledb and run_queries_influx.sh provided by the benchmark suite. We should note that these scripts parameterize the go binaries using environment variables. Before running the script you should check that the host, port , database name , and password parameters are set correctly and according to your database login credentials. If testing locally you should prefer passwordless authentication for both postgres (timescale) and influxdb
+
+From now on we also avoid manual parsing of the outfile and we use the --results-file parameter that outputs the results into a well formed JSON file. We also decided to run the queries twice using the --prewarm-queries flag to evaluate the caching performed by the two databases.
+
+Parameterize the run_queries script by using the source code or by setting the environment variables at runtime and run:
+```console 
+foo@bar:~$ sudo chmod +x ./scripts/run_queries.sh
+foo@bar:~$ sudo ./scripts/run_queries.sh
+[sudo] password for foo:
+```
+The script needs root access in order to stop postgres or influx depending on the benchmark, clear the operating system's cache and proceed to restart the service before executing the next query
+
+We ran all of the tests successfully and gathered some interesting results while comparing the two systems. The results can be found at the [performance/query](./performance/query) directory archived by scenario , database and size , the same as the generated queries
 
 
 

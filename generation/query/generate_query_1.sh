@@ -36,7 +36,6 @@ avg-daily-driving-duration \
 avg-daily-driving-session \
 avg-load \
 daily-activity"
-# long-daily-sessions"
 
  	
 # What query types to generate
