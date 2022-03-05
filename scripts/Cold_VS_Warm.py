@@ -19,7 +19,7 @@ queries = ["avg-daily-driving-duration",
            "stationary-trucks"]
 
 
-def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, timescale_warm_queries, query_name):
+def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, timescale_warm_queries, query_name, dataset_size):
     data = {"DataBase": ["InfluxDB", "TimescaleDB", "InfluxDB", "TimescaleDB"],
             "Time": [influx_cold_queries, timescale_cold_queries, influx_warm_queries, timescale_warm_queries],
             "Query Type": ['Cold Query', 'Cold Query', 'Warm Query', 'Warm Query']}
@@ -37,7 +37,8 @@ def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, ti
                        ha='center', va='center', size=15, xytext=(0, 8),
                        textcoords='offset points')
 
-    plt.title(query_name.replace("-", " "), size=25, fontweight='bold')
+    plt.title((dataset_size + " dataset" + '\n' +
+              query_name.replace("-", " ").title()), size=25, fontweight='bold')
     plt.xlabel("Query type", size=20)
     plt.ylabel("Time (ms)", size=20)
 
@@ -58,4 +59,4 @@ for ds_size in dataset_sizes:
             influx_warm_queries = data['Totals']['overallQuantiles']['warm_queries']['q100']
 
         ploting(influx_cold_queries, influx_warm_queries,
-                timescale_cold_queries, timescale_warm_queries, q)
+                timescale_cold_queries, timescale_warm_queries, q, ds_size)
