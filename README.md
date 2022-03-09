@@ -257,7 +257,7 @@ nodes for multi-node postgres ( timescaledb ) and influxdb.
 
 The image describes a docker network of containers called time_series_network:
 <br>
-<b>benchmarker_container</b> is a modified version of the TSBS Dockerfile
+<b>benchmarker_container</b> is built using a modified version of the TSBS provided Dockerfile. We modify the [Dockerfile](./tsbs/Dockerfile) as
 Change
 ```dockerfile
 FROM alpine:3.8.5
@@ -287,7 +287,7 @@ and
     --mount type=bind,source=~/Time-Series-Databases-Benchmarks/generation/query/,target=/opt/generation/query \
     -dt benchmarker
 ```
-to run the benchmark container assign it to the time_series_network and mount some host directories to the container as a bind mount drive to easily input the data and queries and output the results
+to run the benchmark container attach it to a docker network called 'time_series_network' and mount some specified host directories to the container as a bind drive to easily input the data and queries and output the results
 <br>
 <b>timescale_access</b> 
 ```bash
@@ -305,7 +305,7 @@ While setting up you should ensure that the appropriate left hand side ports of 
 
 ## Configuring the timescaledb nodes
 
-To configure the access and data nodes accordingly you have to open a bash session inside the containers. If you use docker desktop this is done easily via pressing the cli button on the container. If you do not have access to the docker desktop gui type the following command
+To configure the access and data nodes accordingly you have to open a bash session inside the containers. If you use docker desktop this is done easily via pressing the cli button on the container. If you do not have access to the docker-desktop GUI type the following command
 ```bash
 docker exec -it <container-name-or-id> bash
 ```
@@ -319,7 +319,7 @@ On the data node you should open postgresql.conf and change the following config
 max_prepared_transactions=150
 wal_level=logical
 ```
-After configuration you should always restart the containers and not issue a pg_ctl reload command. By setting the enviroment variable POSTGRES_HOST_AUTH_METHOD to trust at container startup we can proceed to connect the nodes to a cluster using the minimum amount of configuration. For your ease you should install a postgresql client such as pgAdmin, Datagrip or DBeaver and connect to the access node's postgresql server. Also you should create every database before inserting data ( do not rely on the --do-create-db parameter while working with distributed databases ) and after that point the data nodes to the access node using their internal container-ip-addresses using:
+After configurating you should always restart the containers and not issue a pg_ctl reload command. By setting the enviroment variable POSTGRES_HOST_AUTH_METHOD to trust at container startup we can proceed to connect the nodes to a cluster using the minimum amount of configuration. For your ease you should install a postgresql client such as pgAdmin, Datagrip or DBeaver and connect to the access node's postgresql server. Also you should create every database before inserting data ( do not rely on the --do-create-db parameter while working with distributed databases ). After that make the data nodes point to the access node using their internal container-ip-addresses using:
 ```SQL
 SELECT add_data_node('dn1', '192.168.0.4')
 SELECT add_data_node('dn2', '192.168.0.5')
