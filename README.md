@@ -231,7 +231,7 @@ foo@bar:~$ ./generation/query/generate_query_1.sh
 ```
 Queries are inside the folder generation/query/<b>scenario</b>/<b>database</b>/<b>size</b>
 
-##Measuring performance on a single machine
+## Measuring performance on a single machine
 
 To measure perforamce on a single machine we used the script [run_queries.sh](./scripts/run_queries.sh) that is more or less a merge of the run_queries_timescaledb and run_queries_influx.sh provided by the benchmark suite. We should note that these scripts parameterize the go binaries using environment variables. Before running the script you should check that the host, port , database name , and password parameters are set correctly and according to your database login credentials. If testing locally you should prefer passwordless authentication for both postgres (timescale) and influxdb
 
@@ -247,5 +247,147 @@ The script needs root access in order to stop postgres or influx depending on th
 
 We ran all of the tests successfully and gathered some interesting results while comparing the two systems. The results can be found at the [performance/query](./performance/query) directory archived by scenario , database and size , the same as the generated queries
 
+## Measuring performance on multi-node environment
+
+To measure performance on a multi-node environment we used publicly available docker images in combination with the Dockerfile given by TSBS. We ve conducted benchmarks for 1 access node ( or meta node ) and 1 ,3 and 5 data
+nodes for multi-node postgres ( timescaledb ) and influxdb. 
+
+## Timescaledb multi-node architecture
+![image info](./images/timescaledb_architecture.png)
+
+The image describes a docker network of containers called time_series_network:
+<br>
+<b>benchmarker_container</b> is a modified version of the TSBS Dockerfile
+Change
+```dockerfile
+FROM alpine:3.8.5
+```
+to 
+```dockerfile
+FROM timescale/timescaledb:latest-pg12
+```
+and add the line
+```dockerfile
+ENV PATH "$PATH:/"
+```
+in order to run the go binaries from everywhere inside the containers file system. To build the image do:
+```powershell
+docker build -t benchmarker .
+```
+and
+```powershell
+docker build -t benchmarker .
+```
+and 
+```bash
+ docker run --name benchmarker_container --network=time_series_network \
+    --mount type=bind,source=~/iot_data,target=/opt/iot_data \
+    --mount type=bind,source=~/Time-Series-Databases-Benchmarks/cluster_performance,target=/opt/cluster_performance \
+    --mount type=bind,source=~/Time-Series-Databases-Benchmarks/tsbs/scripts/,target=/opt/scripts \
+    --mount type=bind,source=~/Time-Series-Databases-Benchmarks/generation/query/,target=/opt/generation/query \
+    -dt benchmarker
+```
+to run the benchmark container assign it to the time_series_network and mount some host directories to the container as a bind mount drive to easily input the data and queries and output the results
+<br>
+<b>timescale_access</b> 
+```bash
+docker run -dt --name timescaledb_access --network=time_series_network -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+```
+<b>timescale_data 1 to 5</b> 
+```bash
+docker run -dt --name timescaledb_data_1 --network=time_series_network -p 5433:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_2 --network=time_series_network -p 5434:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_3 --network=time_series_network -p 5435:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_4 --network=time_series_network -p 5436:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+docker run -dt --name timescaledb_data_5 --network=time_series_network -p 5437:5432 -e POSTGRES_HOST_AUTH_METHOD=trust timescale/timescaledb:latest-pg12
+```
+While setting up you should ensure that the appropriate left hand side ports of the -p parameter are open on the host
+
+## Configuring the timescaledb nodes
+
+To configure the access and data nodes accordingly you have to open a bash session inside the containers. If you use docker desktop this is done easily via pressing the cli button on the container. If you do not have access to the docker desktop gui type the following command
+```bash
+docker exec -it <container-name-or-id> bash
+```
+On the access node you should open postgresql.conf and change the following configurations
+``` 
+enable_partitionwise_aggregate=on
+jit=off
+```
+On the data node you should open postgresql.conf and change the following configurations
+``` 
+max_prepared_transactions=150
+wal_level=logical
+```
+After configuration you should always restart the containers and not issue a pg_ctl reload command. By setting the enviroment variable POSTGRES_HOST_AUTH_METHOD to trust at container startup we can proceed to connect the nodes to a cluster using the minimum amount of configuration. For your ease you should install a postgresql client such as pgAdmin, Datagrip or DBeaver and connect to the access node's postgresql server. Also you should create every database before inserting data ( do not rely on the --do-create-db parameter while working with distributed databases ) and after that point the data nodes to the access node using their internal container-ip-addresses using:
+```SQL
+SELECT add_data_node('dn1', '192.168.0.4')
+SELECT add_data_node('dn2', '192.168.0.5')
+SELECT add_data_node('dn3', '192.168.0.6')
+```
+and 
+```SQL
+SELECT * FROM timescaledb_information.data_nodes;
+```
+to confirm that every data node has been added successfully. 
+
+## Running insert and query performance benchmarks on multi-node timescaledb 
+
+After configuration you are ready to measure insert performance using the [load_timescaledb.sh](./tsbs/scripts/load/load_timescaledb.sh) script inside the container but changing the parameters:
+```bash
+ REPLICATION_FACTOR=0
+ IN_TABLE_PARTITION_TAG=false
+```
+to 
+```bash
+ REPLICATION_FACTOR=1
+ IN_TABLE_PARTITION_TAG=true
+```
+in order to inform the suite to create the tables as distributed hypertables. To run the queries and record results use the [run_queries_multi.sh](./cluster_performance/run_queries_multi.sh) script inside the benchmarker_container after parameterizing correctly as
+```console
+/ # /opt/cluster_performance/run_queries_multi.sh
+```
+See more details inside the script
+## Influxdb multi-node architecture
+![image info](./images/influxdb_architecture.png)
+
+The influx cluster follows the RAFT protocol and allows for group communication between meta and data nodes while also providing prebuilt images on their docker hub repository for meta as well as data nodes.Cluster is a premium feature of influxdb and influx offers a free 14 day trial.
+
+To pull the images and spin up the containers do the following:
+```bash
+docker run -dt --name influxdb_meta --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=<your_license_key> -p 8086:8086 influxdb:1.8.10-meta-alpine
+docker run -dt --name influxdb_data_1 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=<your_license_key> -p 8087:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_2 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=<your_license_key> -p 8088:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_3 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=<your_license_key> -p 8089:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_4 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=<your_license_key> -p 8090:8086 influxdb:1.8.10-data-alpine
+docker run -dt --name influxdb_data_5 --network=time_series_network -e INFLUXDB_ENTERPRISE_LICENSE_KEY=<your_license_key> -p 8091:8086 influxdb:1.8.10-data-alpine
+```
+
+To configure the cluster connect to the meta node and type the following:
+```console
+/# influxd-ctl add-meta 5a8dbd27b87a:8091
+``` 
+where 5a8dbd27b87a are the first 12 letters of the docker container id of the meta node (You can also try local network ip's and dns resolvable names) and 8091 is the port data nodes use to communicate with the meta nodes ( in this case we only have one )
+<br>
+Then also inside the meta-node do the following: 
+```console
+/# influxd-ctl add-data d5938b8b64d3:8088
+/# influxd-ctl show
+
+``` 
+where d5938b8b64d3 are the first 12 letters of the docker container id of the data node and 8088 is the port meta nodes use to communicate with the data nodes. The influxd-ctl show command is used to validate that the cluster was configured correctly and returns something like this for 1 meta and 1 data node
+```console
+Data Nodes
+==========
+ID      TCP Address             Version
+2       d5938b8b6b52:8088       1.8.10-c1.8.10
+
+Meta Nodes
+==========
+TCP Address             Version
+5a8dbd27b87a:8091       1.8.10-c1.8.10
+```
+
+To benchmark insert performance we use the script [load_influx.sh](./tsbs/scripts/load/load_influx.sh) using one of the data node's port 8086. To benchmark write performance we use the same script as with timescaledb ([run_queries_multi.sh](./cluster_performance/run_queries_multi.sh)) but changing the database to influx, and parameterizing correctly 
 
 
