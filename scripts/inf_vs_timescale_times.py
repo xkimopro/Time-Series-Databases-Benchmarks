@@ -20,10 +20,9 @@ queries = ["avg-daily-driving-duration",
 
 
 def ploting(inf_q, time_q, query_name, dataset_size):
-    data = {"DataBase": ["InfluxDB", "InfluxDB", "InfluxDB", "InfluxDB", "InfluxDB", "InfluxDB", "TimescaleDB", "TimescaleDB", "TimescaleDB", "TimescaleDB", "TimescaleDB", "TimescaleDB"],
-            "Time": [inf_q['q0'], inf_q['q100'], inf_q['q50'], inf_q['q95'], inf_q['q99'], inf_q['q999'],
-                     time_q['q0'], time_q['q100'], time_q['q50'], time_q['q95'], time_q['q99'], time_q['q999']],
-            "Metric": ['q0', 'q100', 'q50', 'q95', 'q99', 'q999', 'q0', 'q100', 'q50', 'q95', 'q99', 'q999']
+    data = {"DataBase": ["InfluxDB", "InfluxDB", "TimescaleDB", "TimescaleDB"],
+            "Time": [inf_q['q100'], inf_q['q50'], time_q['q100'], time_q['q50']],
+            "Metric": ['MAX', 'MEDIAN', 'MAX', 'MEDIAN']
             }
 
     df = pd.DataFrame(data, columns=['Metric', 'DataBase', 'Time'])
@@ -31,7 +30,7 @@ def ploting(inf_q, time_q, query_name, dataset_size):
     print(df)
     from matplotlib import style
     plt.style.use('seaborn-darkgrid')
-    plt.figure(figsize=(20, 10))
+    plt.figure(figsize=(10, 10))
 
     plots = sns.barplot(x='DataBase', y='Time', hue='Metric',
                         data=df, palette="inferno_r")
