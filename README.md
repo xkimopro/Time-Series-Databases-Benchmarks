@@ -257,7 +257,7 @@ nodes for multi-node postgres ( timescaledb ) and influxdb.
 
 The image describes a docker network of containers called time_series_network:
 <br>
-<b>benchmarker_container</b> is built using a modified version of the TSBS provided Dockerfile. We modify the [Dockerfile](./tsbs/Dockerfile) as
+<b>benchmarker_container</b> is built using a modified version of the TSBS provided Dockerfile. We modify the [Dockerfile](./tsbs/Dockerfile) as: 
 Change
 ```dockerfile
 FROM alpine:3.8.5
@@ -270,12 +270,8 @@ and add the line
 ```dockerfile
 ENV PATH "$PATH:/"
 ```
-in order to run the go binaries from everywhere inside the containers file system. To build the image do:
-```powershell
-docker build -t benchmarker .
-```
-and
-```powershell
+in order to run the go binaries from everywhere inside the containers file system.<br> To build the image do:
+```bash
 docker build -t benchmarker .
 ```
 and 
