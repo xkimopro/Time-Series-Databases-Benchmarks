@@ -51,11 +51,11 @@ def ploting(inf_q, time_q, query_name, dataset_size):
 for ds_size in dataset_sizes:
     for q in queries:
 
-        with open(f"performance/query/ten_queries/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
+        with open(f"../performance/query/ten_queries/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
             data = json.load(json_file)
             time_q = data['Totals']['overallQuantiles']['all_queries']
 
-        with open(f"performance/query/ten_queries/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
+        with open(f"../performance/query/ten_queries/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
             data = json.load(json_file)
             inf_q = data['Totals']['overallQuantiles']['all_queries']
 

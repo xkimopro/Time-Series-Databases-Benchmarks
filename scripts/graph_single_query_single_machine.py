@@ -19,6 +19,10 @@ queries = ["avg-daily-driving-duration",
            "stationary-trucks"]
 
 
+def cap_sentence(s):
+  return ' '.join(w[:1].upper() + w[1:] for w in s.split(' ')) 
+
+
 def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, timescale_warm_queries, query_name, dataset_size):
     data = {"DataBase": ["InfluxDB", "TimescaleDB", "InfluxDB", "TimescaleDB"],
             "Time": [influx_cold_queries, timescale_cold_queries, influx_warm_queries, timescale_warm_queries],
@@ -37,7 +41,8 @@ def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, ti
                        ha='center', va='center', size=15, xytext=(0, 8),
                        textcoords='offset points')
 
-    plt.title((dataset_size + " dataset" + '\n' +
+    dataset_size_capital = dataset_size.capitalize() 
+    plt.title((dataset_size_capital + " dataset" + '\n' +
               query_name.replace("-", " ").title()), size=25, fontweight='bold')
     plt.xlabel("Query type", size=20)
     plt.ylabel("Time (ms)", size=20)
@@ -48,12 +53,12 @@ def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, ti
 for ds_size in dataset_sizes:
     for q in queries:
 
-        with open(f"performance/query/single_query/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-1-queries.json") as json_file:
+        with open(f"../performance/query/single_query/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-1-queries.json") as json_file:
             data = json.load(json_file)
             timescale_cold_queries = data['Totals']['overallQuantiles']['cold_queries']['q100']
             timescale_warm_queries = data['Totals']['overallQuantiles']['warm_queries']['q100']
 
-        with open(f"performance/query/single_query/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-1-queries.json") as json_file:
+        with open(f"../performance/query/single_query/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-1-queries.json") as json_file:
             data = json.load(json_file)
             influx_cold_queries = data['Totals']['overallQuantiles']['cold_queries']['q100']
             influx_warm_queries = data['Totals']['overallQuantiles']['warm_queries']['q100']
