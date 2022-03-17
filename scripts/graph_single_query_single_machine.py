@@ -20,7 +20,7 @@ queries = ["avg-daily-driving-duration",
 
 
 def cap_sentence(s):
-  return ' '.join(w[:1].upper() + w[1:] for w in s.split(' ')) 
+    return ' '.join(w[:1].upper() + w[1:] for w in s.split(' '))
 
 
 def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, timescale_warm_queries, query_name, dataset_size):
@@ -41,7 +41,7 @@ def ploting(influx_cold_queries, influx_warm_queries, timescale_cold_queries, ti
                        ha='center', va='center', size=15, xytext=(0, 8),
                        textcoords='offset points')
 
-    dataset_size_capital = dataset_size.capitalize() 
+    dataset_size_capital = dataset_size.capitalize()
     plt.title((dataset_size_capital + " dataset" + '\n' +
               query_name.replace("-", " ").title()), size=25, fontweight='bold')
     plt.xlabel("Query type", size=20)
