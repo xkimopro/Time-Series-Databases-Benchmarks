@@ -1,0 +1,48 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": false,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/ten_queries/influx/medium/influx-queries-breakdown-frequency-medium-10-queries.json"
+ },
+ "StartTime": 1647560023000,
+ "EndTime": 1647560062000,
+ "DurationMillis": 39569,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_truck_breakdown_frequency_per_model": {
+    "q0": 0,
+    "q100": 39485.439,
+    "q50": 39192.575,
+    "q95": 39485.439,
+    "q99": 39485.439,
+    "q999": 39485.439
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 39485.439,
+    "q50": 39192.575,
+    "q95": 39485.439,
+    "q99": 39485.439,
+    "q999": 39485.439
+   }
+  },
+  "overallQueryRates": {
+   "Influx_truck_breakdown_frequency_per_model": 0.25274564481278955,
+   "all_queries": 0.25274564481278955
+  },
+  "prewarmQueries": false
+ }
+}

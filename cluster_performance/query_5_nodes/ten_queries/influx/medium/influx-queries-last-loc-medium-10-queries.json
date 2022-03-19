@@ -1,0 +1,48 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": false,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/ten_queries/influx/medium/influx-queries-last-loc-medium-10-queries.json"
+ },
+ "StartTime": 1647560080000,
+ "EndTime": 1647560081000,
+ "DurationMillis": 790,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_last_location_per_truck": {
+    "q0": 0,
+    "q100": 756.383,
+    "q50": 703.615,
+    "q95": 756.383,
+    "q99": 756.383,
+    "q999": 756.383
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 756.383,
+    "q50": 703.615,
+    "q95": 756.383,
+    "q99": 756.383,
+    "q999": 756.383
+   }
+  },
+  "overallQueryRates": {
+   "Influx_last_location_per_truck": 12.679934612113192,
+   "all_queries": 12.679934612113192
+  },
+  "prewarmQueries": false
+ }
+}

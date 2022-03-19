@@ -13,7 +13,7 @@ series = {"first", "second", "third"}
 def ploting(inf_avg_rowrate, time_avg_rowrate, ds_size):
     data = {"DataBase": ["InfluxDB", "InfluxDB", "InfluxDB", "TimescaleDB", "TimescaleDB", "TimescaleDB"],
             "Row Rate": [inf_avg_rowrate[0], inf_avg_rowrate[1], inf_avg_rowrate[2], time_avg_rowrate[0], time_avg_rowrate[1], time_avg_rowrate[2]],
-            "Number of Nodes": ['1 node', '2 nodes', '3 nodes', '1 node', '2 nodes', '3 nodes']
+            "Number of Nodes": ['1 node', '3 nodes', '5 nodes', '1 node', '3 nodes', '5 nodes']
             }
 
     df = pd.DataFrame(

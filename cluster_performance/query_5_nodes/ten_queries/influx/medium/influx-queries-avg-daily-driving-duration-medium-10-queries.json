@@ -1,0 +1,48 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": false,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/ten_queries/influx/medium/influx-queries-avg-daily-driving-duration-medium-10-queries.json"
+ },
+ "StartTime": 1647559726000,
+ "EndTime": 1647559800000,
+ "DurationMillis": 74299,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_average_driver_driving_duration_per_day": {
+    "q0": 0,
+    "q100": 74235.903,
+    "q50": 73854.975,
+    "q95": 74235.903,
+    "q99": 74235.903,
+    "q999": 74235.903
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 74235.903,
+    "q50": 73854.975,
+    "q95": 74235.903,
+    "q99": 74235.903,
+    "q999": 74235.903
+   }
+  },
+  "overallQueryRates": {
+   "Influx_average_driver_driving_duration_per_day": 0.1345994643719303,
+   "all_queries": 0.1345994643719303
+  },
+  "prewarmQueries": false
+ }
+}

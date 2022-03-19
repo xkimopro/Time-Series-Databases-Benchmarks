@@ -1,10 +1,10 @@
 #!/bin/bash
 
 INPUT_DIR=${INPUT_DIR:-'/opt/generation/query/'}
-OUTPUT_DIR=${OUTPUT_DIR:-'/opt/cluster_performance/query_1_node/'}
+OUTPUT_DIR=${OUTPUT_DIR:-'/opt/cluster_performance/query_5_nodes/'}
 
 SCENARIO=${SCENARIO:-'ten_queries'}
-DATABASE_BASE_DIR=${DATABASE_BASE_DIR:-'timescaledb'}
+DATABASE_BASE_DIR=${DATABASE_BASE_DIR:-'influx'}
 DATABASE_SIZE_DIR=${DATABASE_SIZE_DIR:-'medium'}
 DATABASE_NAME=${DATABASE_NAME:-'benchmark_'$DATABASE_SIZE_DIR}
 
@@ -41,9 +41,13 @@ if [ "${DATABASE_BASE_DIR}" == "timescaledb" ]; then
         # NO_EXT_DATA_FILE_NAME: file_with
 
 
+        
+
         # service postgresql stop
         # sync; echo 3 > /proc/sys/vm/drop_caches
         # service postgresql start
+
+      
 
         DATA_FILE_NAME=$(basename -- "${FULL_DATA_FILE_NAME}")
         DIR=$(dirname "${FULL_DATA_FILE_NAME}")
@@ -119,7 +123,6 @@ else
                 --urls "http://influxdb_data_1:8086" \
                 --db-name $DATABASE_NAME \
                 --workers $NUM_WORKERS \
-                --prewarm-queries \
                 --results-file=$OUT_FULL_FILE_NAME       
     }
 

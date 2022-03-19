@@ -1,0 +1,48 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": false,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/ten_queries/influx/medium/influx-queries-low-fuel-medium-10-queries.json"
+ },
+ "StartTime": 1647560082000,
+ "EndTime": 1647560082000,
+ "DurationMillis": 595,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_trucks_with_low_fuel": {
+    "q0": 0,
+    "q100": 564.255,
+    "q50": 517.727,
+    "q95": 564.255,
+    "q99": 564.255,
+    "q999": 564.255
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 564.255,
+    "q50": 517.727,
+    "q95": 564.255,
+    "q99": 564.255,
+    "q999": 564.255
+   }
+  },
+  "overallQueryRates": {
+   "Influx_trucks_with_low_fuel": 16.869283632375122,
+   "all_queries": 16.869283632375122
+  },
+  "prewarmQueries": false
+ }
+}
