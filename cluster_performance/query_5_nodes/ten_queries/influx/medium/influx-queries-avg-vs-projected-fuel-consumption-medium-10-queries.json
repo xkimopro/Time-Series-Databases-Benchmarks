@@ -1,0 +1,48 @@
+{
+ "ResultFormatVersion": "0.1",
+ "RunnerConfig": {
+  "DBName": "benchmark_medium",
+  "Limit": 0,
+  "LimitRPS": 0,
+  "MemProfile": "",
+  "HDRLatenciesFile": "",
+  "Workers": 12,
+  "PrintResponses": false,
+  "Debug": 0,
+  "FileName": "",
+  "BurnIn": 0,
+  "PrintInterval": 100,
+  "PrewarmQueries": false,
+  "ResultsFile": "/opt/cluster_performance/query_5_nodes/ten_queries/influx/medium/influx-queries-avg-vs-projected-fuel-consumption-medium-10-queries.json"
+ },
+ "StartTime": 1647560007000,
+ "EndTime": 1647560022000,
+ "DurationMillis": 15139,
+ "Totals": {
+  "burnIn": 0,
+  "limit": 0,
+  "overallQuantiles": {
+   "Influx_average_vs_projected_fuel_consumption_per_fleet": {
+    "q0": 0,
+    "q100": 15087.103,
+    "q50": 14158.847,
+    "q95": 15087.103,
+    "q99": 15087.103,
+    "q999": 15087.103
+   },
+   "all_queries": {
+    "q0": 0,
+    "q100": 15087.103,
+    "q50": 14158.847,
+    "q95": 15087.103,
+    "q99": 15087.103,
+    "q999": 15087.103
+   }
+  },
+  "overallQueryRates": {
+   "Influx_average_vs_projected_fuel_consumption_per_fleet": 0.6606045890192561,
+   "all_queries": 0.6606045890192561
+  },
+  "prewarmQueries": false
+ }
+}

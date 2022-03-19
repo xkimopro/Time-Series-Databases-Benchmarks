@@ -37,6 +37,9 @@ avg-daily-driving-session \
 avg-load \
 daily-activity"
 
+To measure perforamce on a single machine we used the script run_queries.sh that is more or less a merge of the run_queries_timescaledb and run_queries_influx.sh provided by the benchmark suite. We should note that these scripts parameterize the go binaries using environment variables. Before running the script you should check that the host, port , database name , and password parameters are set correctly and according to your database login credentials. If testing locally you should prefer passwordless authentication for both postgres (timescale) and influxdb.From now on we also avoid manual parsing of the outfile and we use the --results-file parameter that outputs the results into a well formed JSON file. We also decided to run the queries twice using the --prewarm-queries flag to evaluate the caching performed by the two databases.
+
+
  	
 # What query types to generate
 QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}
