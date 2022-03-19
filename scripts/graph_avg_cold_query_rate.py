@@ -26,12 +26,12 @@ for ds_size in dataset_sizes[:1]:
         with open(f"../performance/query/ten_queries/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
             data = json.load(json_file)
             time_avg_q_rate[dataset_sizes.index(
-                ds_size)] += data['Totals']['overallQueryRates']['cold_queries']
+                ds_size)] += data['Totals']['overallQuantiles']['cold_queries']['q50']
 
         with open(f"../performance/query/ten_queries/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
             data = json.load(json_file)
             inf_avg_q_rate[dataset_sizes.index(
-                ds_size)] += data['Totals']['overallQueryRates']['cold_queries']
+                ds_size)] += data['Totals']['overallQuantiles']['cold_queries']['q50']
 
 for ds_size in dataset_sizes:
     for q in queries:
@@ -39,12 +39,12 @@ for ds_size in dataset_sizes:
         with open(f"../performance/query/single_query/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-1-queries.json") as json_file:
             data = json.load(json_file)
             time_avg_q_rate[dataset_sizes.index(
-                ds_size)] += data['Totals']['overallQueryRates']['cold_queries']
+                ds_size)] += data['Totals']['overallQuantiles']['cold_queries']['q50']
 
         with open(f"../performance/query/single_query/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-1-queries.json") as json_file:
             data = json.load(json_file)
             inf_avg_q_rate[dataset_sizes.index(
-                ds_size)] += data['Totals']['overallQueryRates']['cold_queries']
+                ds_size)] += data['Totals']['overallQuantiles']['cold_queries']['q50']
 
 for x in range(3):
     inf_avg_q_rate[x] = inf_avg_q_rate[x]/22
