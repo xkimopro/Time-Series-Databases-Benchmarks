@@ -39,7 +39,7 @@ def ploting(influx_q_max, influx_q_med, timescale_q_max, timescale_q_med, query_
     plt.style.use('seaborn-darkgrid')
     plt.figure(figsize=(8, 8))
 
-    plots = sns.barplot(x='Query Type', y='Time', hue='DataBase', data=df)
+    plots = sns.barplot(x='Metric', y='Time', hue='DataBase', data=df)
     for bar in plots.patches:
         plots.annotate(format(bar.get_height(), '.2f'),
                        (bar.get_x() + bar.get_width()/2, bar.get_height()),
