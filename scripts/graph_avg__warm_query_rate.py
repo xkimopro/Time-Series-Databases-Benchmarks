@@ -20,18 +20,18 @@ queries = ["avg-daily-driving-duration",
            "low-fuel",
            "stationary-trucks"]
 
-for ds_size in dataset_sizes[:1]:
-    for q in queries:
+# for ds_size in dataset_sizes[:1]:
+#     for q in queries:
 
-        with open(f"../performance/query/ten_queries/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
-            data = json.load(json_file)
-            time_avg_q_rate[dataset_sizes.index(
-                ds_size)] += data['Totals']['overallQuantiles']['warm_queries']['q50']
+#         with open(f"../performance/query/ten_queries/{db_name[0]}/{ds_size}/{db_name[0]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
+#             data = json.load(json_file)
+#             time_avg_q_rate[dataset_sizes.index(
+#                 ds_size)] += data['Totals']['overallQuantiles']['warm_queries']['q50']
 
-        with open(f"../performance/query/ten_queries/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
-            data = json.load(json_file)
-            inf_avg_q_rate[dataset_sizes.index(
-                ds_size)] += data['Totals']['overallQuantiles']['warm_queries']['q50']
+#         with open(f"../performance/query/ten_queries/{db_name[1]}/{ds_size}/{db_name[1]}-queries-{q}-{ds_size}-10-queries.json") as json_file:
+#             data = json.load(json_file)
+#             inf_avg_q_rate[dataset_sizes.index(
+#                 ds_size)] += data['Totals']['overallQuantiles']['warm_queries']['q50']
 
 for ds_size in dataset_sizes:
     for q in queries:
@@ -47,16 +47,16 @@ for ds_size in dataset_sizes:
                 ds_size)] += data['Totals']['overallQuantiles']['warm_queries']['q50']
 
 for x in range(3):
-    inf_avg_q_rate[x] = inf_avg_q_rate[x]/22
-    time_avg_q_rate[x] = time_avg_q_rate[x]/22
-    if x == 2:
-        inf_avg_q_rate[x] = inf_avg_q_rate[x]/11
-        time_avg_q_rate[x] = time_avg_q_rate[x]/11
+    inf_avg_q_rate[x] = inf_avg_q_rate[x]/11
+    time_avg_q_rate[x] = time_avg_q_rate[x]/11
+    # if x == 2:
+    #     inf_avg_q_rate[x] = inf_avg_q_rate[x]/11
+    #     time_avg_q_rate[x] = time_avg_q_rate[x]/11
 
 
 def ploting(inf_avg_q_rate, time_avg_q_rate):
     data = {"DataBase": ["InfluxDB", "InfluxDB", "InfluxDB", "TimescaleDB", "TimescaleDB", "TimescaleDB"],
-            "Query Rate": [inf_avg_q_rate[0], inf_avg_q_rate[1], inf_avg_q_rate[2], time_avg_q_rate[0], time_avg_q_rate[1], time_avg_q_rate[2]],
+            "Query Rate": [1/inf_avg_q_rate[0], 1/inf_avg_q_rate[1], 1/inf_avg_q_rate[2], 1/time_avg_q_rate[0], 1/time_avg_q_rate[1], 1/time_avg_q_rate[2]],
             "Dataset Size": ['small', 'medium', 'large', 'small', 'medium', 'large']
             }
 
